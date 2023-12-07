@@ -1,41 +1,27 @@
 import { Box, Container, Flex, Image, VStack } from "@chakra-ui/react";
 import AuthForm from "../../components/AuthForm/AuthForm";
 
-const flexStyles = {
-  minH: "100vh",
-  justifyContent: "center",
-  alignItems: "center",
-  px: 4,
-};
-
-const containerStyles = {
-  maxW: "md",
-  padding: 0,
-};
-
-const boxLeftStyles = {
-  display: {
-    base: "none",
-    md: "block",
-  },
-};
-
-const vStackStyles = {
-  spacing: 4,
-  align: "stretch",
-};
-
 const AuthPage = () => {
   return (
-    <Flex {...flexStyles}>
-      <Container {...containerStyles}>
-        <Box {...boxLeftStyles}>
-          <Image src="/auth.png" h={650} alt="Phone img" />
-        </Box>
+    <Flex minH={"100vh"} justifyContent={"center"} alignItems={"center"} px={4}>
+      <Container maxW={"container.md"} padding={0}>
+        <Flex justifyContent={"center"} alignItems={"center"} gap={10}>
+          {/* Left Phone Image */}
+          <Box display={{ base: "none", md: "block" }}>
+            <Image src="/auth.png" h={650} alt="Phone img" />
+          </Box>
+
+          {/* Right Auth Form */}
+          <VStack spacing={4} align={"stretch"}>
+            <AuthForm />
+            <Box textAlign={"center"}>Get the app.</Box>
+            <Flex gap={5} justifyContent={"center"}>
+              <Image src="/playstore.png" h={"10"} alt="Playstore logo" />
+              <Image src="/microsoft.png" h={"10"} alt="Microsoft logo" />
+            </Flex>
+          </VStack>
+        </Flex>
       </Container>
-      <VStack {...vStackStyles}>
-        <AuthForm />
-      </VStack>
     </Flex>
   );
 };
