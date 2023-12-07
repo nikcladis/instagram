@@ -1,8 +1,16 @@
 import { useState } from "react";
-import { Box, Image, Input, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Image,
+  Input,
+  VStack,
+  Text,
+} from "@chakra-ui/react";
 
 const AuthForm = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   return (
     <>
@@ -19,6 +27,36 @@ const AuthForm = () => {
               fontSize={14}
             />
           ) : null}
+
+          <Button w={"full"} colorScheme="blue" size={"sm"} fontSize={14}>
+            {isLogin ? "Log in" : "Sign Up"}
+          </Button>
+
+          {/* --------- OR ---------- */}
+          <Flex
+            alignItems={"center"}
+            justifyContent={"center"}
+            my={4}
+            gap={1}
+            w={"full"}
+          >
+            <Box flex={2} h={"1px"} bg={"gray.400"}></Box>
+            <Text mx={1} color={"white"}>
+              OR
+            </Text>
+            <Box flex={2} h={"1px"} bg={"gray.400"}></Box>
+          </Flex>
+
+          <Flex
+            justifyContent={"center"}
+            alignItems={"center"}
+            cursor={"pointer"}
+          >
+            <Image src="/google.png" w={6} alt="Google logo" />
+            <Text mx={"2"} color={"blue.500"}>
+              Login with Google
+            </Text>
+          </Flex>
         </VStack>
       </Box>
     </>
