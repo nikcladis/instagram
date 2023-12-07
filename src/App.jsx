@@ -1,10 +1,13 @@
 import { Button } from "@chakra-ui/react";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <div>
-      <Button>Hello Nick</Button>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" />
+      </Routes>
+    </>
   );
 }
 
