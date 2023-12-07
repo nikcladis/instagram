@@ -1,5 +1,5 @@
-import React from "react";
 import { Box, Container, Flex, Image, VStack } from "@chakra-ui/react";
+import AuthForm from "../../components/AuthForm/AuthForm";
 
 const flexStyles = {
   minH: "100vh",
@@ -13,7 +13,7 @@ const containerStyles = {
   padding: 0,
 };
 
-const boxStyles = {
+const boxLeftStyles = {
   display: {
     base: "none",
     md: "block",
@@ -29,10 +29,13 @@ const AuthPage = () => {
   return (
     <Flex {...flexStyles}>
       <Container {...containerStyles}>
-        <Box {...boxStyles}>
+        <Box {...boxLeftStyles}>
           <Image src="/auth.png" h={650} alt="Phone img" />
         </Box>
       </Container>
+      <VStack {...vStackStyles}>
+        <AuthForm />
+      </VStack>
     </Flex>
   );
 };
