@@ -8,16 +8,25 @@ import {
   VStack,
   Text,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-  const handleAuth = () => {};
+  const handleAuth = () => {
+    if (!inputs.email || !inputs.password) {
+      alert("Please fill all the fields");
+      return;
+    }
+
+    navigate("/");
+  };
 
   return (
     <>
