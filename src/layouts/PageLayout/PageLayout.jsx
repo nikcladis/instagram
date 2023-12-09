@@ -13,7 +13,7 @@ const PageLayout = ({ children }) => {
           <Sidebar />
         </Box>
       ) : null}
-      ;{/* Content on the right*/}
+      {/* Content on the right*/}
       <Box flex={1} w={{ base: "calc(100% - 70px)", md: "calc(100% - 240px)" }}>
         {children}
       </Box>
