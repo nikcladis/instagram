@@ -4,6 +4,7 @@ import ProfilePost from "./ProfilePost";
 
 const ProfilePosts = () => {
   const [isLoading, setIsLoading] = useState(true);
+
   const skeletonArray = Array(6).fill();
 
   useEffect(() => {
