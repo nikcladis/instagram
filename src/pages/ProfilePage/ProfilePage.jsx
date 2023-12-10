@@ -1,7 +1,7 @@
 import { Container, Flex } from "@chakra-ui/react";
-import ProfileHeader from "./ProfileHeader";
-import ProfileTabs from "./ProfileTabs";
-import ProfilePosts from "./ProfilePosts";
+import ProfileHeader from "../../components/Profile/ProfileHeader";
+import ProfileTabs from "../../components/Profile/ProfileTabs";
+import ProfilePosts from "../../components/Profile/ProfilePosts";
 
 const ProfilePage = () => {
   return (
