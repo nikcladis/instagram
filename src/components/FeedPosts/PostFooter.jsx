@@ -14,7 +14,7 @@ import {
   CommentLogo,
 } from "../../assets/constants";
 
-const PostFooter = () => {
+const PostFooter = ({ username, isProfilePage }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(1000);
 
@@ -34,13 +34,19 @@ const PostFooter = () => {
         </Box>
       </HStack>
       <Text>{likes} likes</Text>
-      <HStack gap={1}>
-        <Text fontWeight={"bold"}>nikcladis</Text>
-        <Text as="span">Feeling good</Text>
-      </HStack>
-      <Text cursor={"pointer"} color={"gray.500"}>
-        View all 1,000 comments
-      </Text>
+
+      {!isProfilePage && (
+        <>
+          <HStack gap={1}>
+            <Text fontWeight={"bold"}>{username ?? "nikcladis"}</Text>
+            <Text as="span">Feeling good</Text>
+          </HStack>
+          <Text cursor={"pointer"} color={"gray.500"}>
+            View all 1,000 comments
+          </Text>
+        </>
+      )}
+
       <InputGroup>
         <Input variant="flushed" placeholder="Add a comment..." fontSize={14} />
         <InputRightElement

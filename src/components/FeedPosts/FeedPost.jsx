@@ -9,7 +9,7 @@ const FeedPost = ({ username, img, avatar }) => {
       <Box borderRadius={4} overflow={"hidden"}>
         <Image src={img} alt={"user profile pic"} />
       </Box>
-      <PostFooter />
+      <PostFooter username={username} />
     </Box>
   );
 };

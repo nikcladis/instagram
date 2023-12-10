@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { MdDelete } from "react-icons/md";
 import Comment from "../Comment/Comment";
+import PostFooter from "../FeedPosts/PostFooter";
 
 const PostModal = ({ isOpen, onClose, img }) => {
   return (
@@ -27,7 +28,12 @@ const PostModal = ({ isOpen, onClose, img }) => {
       <ModalContent>
         <ModalCloseButton />
         <ModalBody bg={"black"} pb={5}>
-          <Flex gap={4} w={{ base: "90%", sm: "70%", md: "full" }} mx={"auto"}>
+          <Flex
+            gap={4}
+            w={{ base: "90%", sm: "70%", md: "full" }}
+            mx={"auto"}
+            flexDirection={{ base: "column", md: "row" }}
+          >
             <Box
               borderRadius={4}
               overflow={"hidden"}
@@ -37,12 +43,7 @@ const PostModal = ({ isOpen, onClose, img }) => {
             >
               <Image src={img} alt="profile post" />
             </Box>
-            <Flex
-              flex={1}
-              flexDir={"column"}
-              px={10}
-              display={{ base: "none", md: "flex" }}
-            >
+            <Flex flex={1} flexDir={"column"} px={{ base: 0, md: 10 }}>
               <Flex alignItems={"center"} justifyContent={"space-between"}>
                 <Flex alignItems={"center"} gap={4}>
                   <Avatar
@@ -89,6 +90,10 @@ const PostModal = ({ isOpen, onClose, img }) => {
                   text={"Dummy images from unsplash"}
                 />
               </VStack>
+              <Divider my={4} bg={"gray.800"} />
+              <Box marginTop={"auto"}>
+                <PostFooter isProfilePage={true} />
+              </Box>
             </Flex>
           </Flex>
         </ModalBody>
