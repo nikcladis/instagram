@@ -22,6 +22,12 @@ const GoogleAuth = ({ prefix }) => {
       const userSnap = await getDoc(userRef);
 
       if (userSnap.exists()) {
+        // login
+        const userDoc = userSnap.data();
+        localStorage.setItem("user-info", JSON.stringify(userDoc));
+        loginUser(userDoc);
+      } else {
+        // signup
         const userDoc = {
           uid: newUser.user.uid,
           email: newUser.user.email,
