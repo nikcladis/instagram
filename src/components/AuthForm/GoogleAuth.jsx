@@ -1,5 +1,5 @@
 import { Flex, Image, Text } from "@chakra-ui/react";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { auth, firestore } from "../../firebase/firebase";
 import useShowToast from "../../hooks/useShowToast";
@@ -18,7 +18,10 @@ const GoogleAuth = ({ prefix }) => {
         showToast("Error", error.message, "error");
       }
 
-      if (newUser) {
+      const userRef = doc(firestore, "users", newUser.user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
         const userDoc = {
           uid: newUser.user.uid,
           email: newUser.user.email,
