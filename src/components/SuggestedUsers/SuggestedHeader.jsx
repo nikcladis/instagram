@@ -7,11 +7,13 @@ const SuggestedHeader = () => {
   const { handleLogout, isLoggingOut } = useLogout();
   const authUser = useAuthStore((state) => state.user);
 
+  if (!authUser) return null;
+
   return (
     <HStack justifyContent={"space-between"} alignItems={"center"} w={"full"}>
       <Flex alignItems={"center"} gap={2}>
         <Link to={`${authUser.username}/`}>
-          <Avatar name={authUser.fullName} src={authUser.profilePicURL ?? ""} />
+          <Avatar name={authUser.fullName} src={authUser.profilePicURL} />
         </Link>
         <Link to={`${authUser.username}/`}>
           <Text fontWeight={"bold"} fontSize={"sm"}>
