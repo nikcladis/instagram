@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Avatar,
   Button,
@@ -17,6 +18,17 @@ import {
 } from "@chakra-ui/react";
 
 const EditProfile = ({ isOpen, onClose }) => {
+  const [inputs, setInputs] = useState({
+    username: "",
+    fullName: "",
+    bio: "",
+    profilePicUrl: "",
+  });
+
+  const handleEditProfile = () => {
+    console.log(inputs);
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -56,17 +68,41 @@ const EditProfile = ({ isOpen, onClose }) => {
 
                 <FormControl>
                   <FormLabel fontSize={"sm"}>Full Name</FormLabel>
-                  <Input placeholder={"Full Name"} size={"sm"} type={"text"} />
+                  <Input
+                    placeholder={"Full Name"}
+                    size={"sm"}
+                    type={"text"}
+                    value={inputs.fullName}
+                    onChange={(e) =>
+                      setInputs({ ...inputs, fullName: e.target.value })
+                    }
+                  />
                 </FormControl>
 
                 <FormControl>
                   <FormLabel fontSize={"sm"}>Username</FormLabel>
-                  <Input placeholder={"Username"} size={"sm"} type={"text"} />
+                  <Input
+                    placeholder={"Username"}
+                    size={"sm"}
+                    type={"text"}
+                    value={inputs.username}
+                    onChange={(e) =>
+                      setInputs({ ...inputs, username: e.target.value })
+                    }
+                  />
                 </FormControl>
 
                 <FormControl>
                   <FormLabel fontSize={"sm"}>Bio</FormLabel>
-                  <Input placeholder={"Bio"} size={"sm"} type={"text"} />
+                  <Input
+                    placeholder={"Bio"}
+                    size={"sm"}
+                    type={"text"}
+                    value={inputs.bio}
+                    onChange={(e) =>
+                      setInputs({ ...inputs, bio: e.target.value })
+                    }
+                  />
                 </FormControl>
 
                 <Stack spacing={6} direction={["column", "row"]}>
@@ -76,6 +112,7 @@ const EditProfile = ({ isOpen, onClose }) => {
                     w="full"
                     size="sm"
                     _hover={{ bg: "red.500" }}
+                    onClick={onClose}
                   >
                     Cancel
                   </Button>
@@ -85,6 +122,7 @@ const EditProfile = ({ isOpen, onClose }) => {
                     size="sm"
                     w="full"
                     _hover={{ bg: "blue.500" }}
+                    onClick={handleEditProfile}
                   >
                     Submit
                   </Button>
