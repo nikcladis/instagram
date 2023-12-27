@@ -35,7 +35,7 @@ const ProfileHeader = () => {
       >
         <Avatar
           name={userProfile.fullName}
-          src={userProfile.profilePicUrl}
+          src={userProfile.profilePicURL}
           alt="nikcladis logo"
         />
       </AvatarGroup>
