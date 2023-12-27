@@ -18,11 +18,15 @@ import {
 } from "@chakra-ui/react";
 import useAuthStore from "../../store/authStore";
 import usePreviewImg from "../../hooks/usePreviewImg";
+import useShowToast from "../../hooks/useShowToast";
+import useEditProfile from "../../hooks/useEditProfile";
 
 const EditProfile = ({ isOpen, onClose }) => {
   const authUser = useAuthStore((state) => state.user);
   const fileRef = useRef(null);
   const { selectedFile, handleImageChange, setSelectedFile } = usePreviewImg();
+  const { isUpdating, editProfile } = useEditProfile();
+  const { showToast } = useShowToast();
 
   const [inputs, setInputs] = useState({
     username: "",
@@ -31,8 +35,14 @@ const EditProfile = ({ isOpen, onClose }) => {
     profilePicUrl: "",
   });
 
-  const handleEditProfile = () => {
-    console.log(inputs);
+  const handleEditProfile = async () => {
+    try {
+      await editProfile(inputs, selectedFile);
+      setSelectedFile(null);
+      onClose();
+    } catch (error) {
+      showToast("Error", error.message, "error");
+    }
   };
 
   return (
@@ -141,6 +151,7 @@ const EditProfile = ({ isOpen, onClose }) => {
                     w="full"
                     _hover={{ bg: "blue.500" }}
                     onClick={handleEditProfile}
+                    isLoading={isUpdating}
                   >
                     Submit
                   </Button>
