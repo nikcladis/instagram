@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Avatar,
   Button,
@@ -16,8 +16,12 @@ import {
   ModalOverlay,
   Stack,
 } from "@chakra-ui/react";
+import useAuthStore from "../../store/authStore";
 
 const EditProfile = ({ isOpen, onClose }) => {
+  const authUser = useAuthStore((state) => state.user);
+  const fileRef = useRef(null);
+
   const [inputs, setInputs] = useState({
     username: "",
     fullName: "",
@@ -61,8 +65,11 @@ const EditProfile = ({ isOpen, onClose }) => {
                       <Avatar size="xl" src={""} border={"2px solid white "} />
                     </Center>
                     <Center w="full">
-                      <Button w="full">Edit Profile Picture</Button>
+                      <Button w="full" onClick={() => fileRef.current.click()}>
+                        Edit Profile Picture
+                      </Button>
                     </Center>
+                    <Input type="file" hidden ref={fileRef} />
                   </Stack>
                 </FormControl>
 
@@ -72,7 +79,7 @@ const EditProfile = ({ isOpen, onClose }) => {
                     placeholder={"Full Name"}
                     size={"sm"}
                     type={"text"}
-                    value={inputs.fullName}
+                    value={inputs.fullName || authUser.fullName}
                     onChange={(e) =>
                       setInputs({ ...inputs, fullName: e.target.value })
                     }
@@ -85,7 +92,7 @@ const EditProfile = ({ isOpen, onClose }) => {
                     placeholder={"Username"}
                     size={"sm"}
                     type={"text"}
-                    value={inputs.username}
+                    value={inputs.username || authUser.username}
                     onChange={(e) =>
                       setInputs({ ...inputs, username: e.target.value })
                     }
@@ -98,7 +105,7 @@ const EditProfile = ({ isOpen, onClose }) => {
                     placeholder={"Bio"}
                     size={"sm"}
                     type={"text"}
-                    value={inputs.bio}
+                    value={inputs.bio || authUser.bio}
                     onChange={(e) =>
                       setInputs({ ...inputs, bio: e.target.value })
                     }
