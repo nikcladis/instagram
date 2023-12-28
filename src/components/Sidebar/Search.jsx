@@ -1,7 +1,35 @@
-import { Box, Flex, Tooltip } from "@chakra-ui/react";
+import { useRef } from "react";
+import {
+  Box,
+  Flex,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  ModalCloseButton,
+  Tooltip,
+  useDisclosure,
+  ModalBody,
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+} from "@chakra-ui/react";
 import { SearchLogo } from "../../assets/constants";
+import useSearchUser from "../../hooks/useSearchUser";
 
 const Search = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const searchRef = useRef(null);
+  const { user, isLoading, getUserProfile } = useSearchUser();
+
+  const handleSearchUser = (e) => {
+    e.preventDefault();
+    getUserProfile(searchRef.current.value);
+  };
+
+  console.log(user);
+
   return (
     <>
       <Tooltip
@@ -20,11 +48,46 @@ const Search = () => {
           p={2}
           w={{ base: 10, md: "full" }}
           justifyContent={{ base: "center", md: "flex-start" }}
+          onClick={onOpen}
         >
           <SearchLogo />
           <Box display={{ base: "none", md: "block" }}>Search</Box>
         </Flex>
       </Tooltip>
+
+      <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInLeft">
+        <ModalOverlay />
+        <ModalContent
+          bg={"black"}
+          border={"1px solid gray"}
+          maxW={"400px"}
+          ml={4}
+          mr={4}
+        >
+          <ModalHeader>Search User</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <form onSubmit={handleSearchUser}>
+              <FormControl>
+                <FormLabel>Username</FormLabel>
+                <Input placeholder="nikcladis" ref={searchRef} />
+              </FormControl>
+
+              <Flex w={"full"} justifyContent={"flex-end"}>
+                <Button
+                  type="submit"
+                  ml={"auto"}
+                  size={"sm"}
+                  my={4}
+                  isLoading={isLoading}
+                >
+                  Search
+                </Button>
+              </Flex>
+            </form>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
