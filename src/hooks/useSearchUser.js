@@ -9,7 +9,7 @@ const useSearchUser = () => {
     const showToast = useShowToast();
 
     const getUserProfile = async (username) => {
-
+        setIsLoading(true);
         try {
             const q = query(collection(firestore, "users"), where("username", "==", username));
 
@@ -29,7 +29,7 @@ const useSearchUser = () => {
 
     }
 
-    return { isLoading, user, getUserProfile };
+    return { isLoading, user, setUser, getUserProfile };
 }
 
 export default useSearchUser
