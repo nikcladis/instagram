@@ -8,12 +8,12 @@ import { doc, updateDoc, arrayRemove, arrayUnion } from "firebase/firestore";
 const useFollowUser = (userId) => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
-    const { user, setAuthUser } = useAuthStore();
+    const { user, setUser } = useAuthStore();
     const { userProfile, setUserProfile } = useUserProfileStore();
     const showToast = useShowToast();
 
     const handleFollowUser = async () => {
-
+        setIsUpdating(true);
         try {
             const currectUserRef = doc(firestore, "users", user.uid);
             const userToFollowOrUnfollowRef = doc(firestore, "users", userId);
@@ -28,7 +28,7 @@ const useFollowUser = (userId) => {
 
             if (isFollowing) {
                 // unfollow
-                setAuthUser({
+                setUser({
                     ...user,
                     following: user.following.filter(uid => uid !== userId)
                 });
@@ -46,7 +46,7 @@ const useFollowUser = (userId) => {
                 setIsFollowing(false);
             } else {
                 // follow
-                setAuthUser({
+                setUser({
                     ...user,
                     following: [...user.following, userId]
                 });
@@ -69,15 +69,17 @@ const useFollowUser = (userId) => {
         } finally {
             setIsUpdating(false);
         }
-
-        useEffect(() => {
-            const isFollowing = authUser.following.includes(userId);
-            setIsFollowing(isFollowing);
-        }, [authUser, userId]);
-
-        return { isUpdating, isFollowing, handleFollowUser };
-
-
     }
 
-    export default useFollowUser
+    useEffect(() => {
+        if (user) {
+            const isFollowing = user.following.includes(userId);
+            setIsFollowing(isFollowing);
+        }
+    }, [user, userId]);
+
+    return { isUpdating, isFollowing, handleFollowUser };
+
+}
+
+export default useFollowUser;
