@@ -1,6 +1,7 @@
-import { Box, Flex, Avatar, VStack, Button } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, VStack } from "@chakra-ui/react";
 import useFollowUser from "../../hooks/useFollowUser";
 import useAuthStore from "../../store/authStore";
+import { Link } from "react-router-dom";
 
 const SuggestedUser = ({ user, setUser }) => {
   const { isUpdating, isFollowing, handleFollowUser } = useFollowUser(user.uid);
@@ -19,12 +20,16 @@ const SuggestedUser = ({ user, setUser }) => {
   return (
     <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"}>
       <Flex alignItems={"center"} gap={2}>
-        <Avatar src={user.profilePicURL} size={"md"} />
-        <VStack alignItems={"flex-start"} spacing={2}>
-          <Box fontSize={"sm"} fontWeight={"bold"}>
-            {user.fullName}
-          </Box>
-          <Box alignSelf={"flex-start"} fontSize={11} color={"gray.500"}>
+        <Link to={`/${user.username}`}>
+          <Avatar src={user.profilePicURL} size={"md"} />
+        </Link>
+        <VStack spacing={2} alignItems={"flex-start"}>
+          <Link to={`/${user.username}`}>
+            <Box fontSize={12} fontWeight={"bold"}>
+              {user.fullName}
+            </Box>
+          </Link>
+          <Box fontSize={11} color={"gray.500"}>
             {user.followers.length} followers
           </Box>
         </VStack>
