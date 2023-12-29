@@ -7,3 +7,5 @@ const usePostStore = create((set) => ({
     // addComment
     // setPosts
 }));
+
+export default usePostStore;
