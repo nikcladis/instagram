@@ -3,12 +3,15 @@ import { AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
 import PostModal from "../PostModal/PostModal";
 import useUserProfileStore from "../../store/useUserProfileStore";
+import useAuthStore from "../../store/authStore";
 
 const ProfilePost = ({ post }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const userProfile = useUserProfileStore((state) => state.userProfile);
+  const authUser = useAuthStore((state) => state.user);
 
-  console.log(userProfile);
+  console.log("authUserUId: ", authUser);
+  console.log("userProfileUId: ", userProfile);
 
   return (
     <>
@@ -63,6 +66,8 @@ const ProfilePost = ({ post }) => {
         username={userProfile.username}
         fullName={userProfile.fullName}
         profilePic={userProfile.profilePicURL}
+        userProfileUId={userProfile.uid}
+        authUserUId={authUser?.uid}
       ></PostModal>
     </>
   );

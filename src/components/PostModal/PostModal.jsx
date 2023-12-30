@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Divider,
   Flex,
   Image,
@@ -13,6 +14,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { MdDelete } from "react-icons/md";
+import useUserProfileStore from "../../store/useUserProfileStore";
 import Comment from "../Comment/Comment";
 import PostFooter from "../FeedPosts/PostFooter";
 
@@ -23,6 +25,8 @@ const PostModal = ({
   username,
   fullName,
   profilePic,
+  userProfileUId,
+  authUserUId,
 }) => {
   return (
     <Modal
@@ -40,15 +44,18 @@ const PostModal = ({
             w={{ base: "90%", sm: "70%", md: "full" }}
             mx={"auto"}
             flexDirection={{ base: "column", md: "row" }}
+            justifyContent={{ md: "center" }}
+            alignItems={{ md: "center" }}
           >
             <Box
               borderRadius={4}
               overflow={"hidden"}
               border={"1px solid"}
               borderColor={"whiteAlpha.300"}
+              height={"fit-content"}
               flex={1.5}
             >
-              <Image src={img} alt="profile post" />
+              <Image src={img} alt="profile post" backgroundSize={"cover"} />
             </Box>
             <Flex flex={1} flexDir={"column"} px={{ base: 0, md: 10 }}>
               <Flex alignItems={"center"} justifyContent={"space-between"}>
@@ -59,13 +66,17 @@ const PostModal = ({
                   </Text>
                 </Flex>
 
-                <Box
-                  _hover={{ base: "whiteAlpha.300", color: "red.600" }}
-                  borderRadius={4}
-                  p={1}
-                >
-                  <MdDelete size={20} cursor={"pointer"}></MdDelete>
-                </Box>
+                {authUserUId === userProfileUId && (
+                  <Button
+                    size={"sm"}
+                    bg={"transparent"}
+                    _hover={{ base: "whiteAlpha.300", color: "red.600" }}
+                    borderRadius={4}
+                    p={1}
+                  >
+                    <MdDelete size={20} cursor={"pointer"}></MdDelete>
+                  </Button>
+                )}
               </Flex>
               <Divider my={4} bg={"gray.500"} />
               <VStack
@@ -83,12 +94,6 @@ const PostModal = ({
                 <Comment
                   createdAt={"12h ago"}
                   username={"abrahmov"}
-                  profilePic={"/profilepic.png"}
-                  text={"Dummy images from unsplash"}
-                />
-                <Comment
-                  createdAt={"1d ago"}
-                  username={"kentdodds"}
                   profilePic={"/profilepic.png"}
                   text={"Dummy images from unsplash"}
                 />
