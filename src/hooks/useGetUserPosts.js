@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import usePostStore from "../store/postStore";
 import useShowToast from "./useShowToast";
-import useUserProfileStore from "../store/userProfileStore";
+import useUserProfileStore from "../store/useUserProfileStore";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../firebase/firebase";
 

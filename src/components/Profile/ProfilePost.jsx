@@ -2,9 +2,13 @@ import { Flex, GridItem, Image, Text, useDisclosure } from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
 import PostModal from "../PostModal/PostModal";
+import useUserProfileStore from "../../store/useUserProfileStore";
 
-const ProfilePost = ({ img }) => {
+const ProfilePost = ({ post }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const userProfile = useUserProfileStore((state) => state.userProfile);
+
+  console.log(userProfile);
 
   return (
     <>
@@ -32,19 +36,19 @@ const ProfilePost = ({ img }) => {
             <Flex alignItems={"center"}>
               <AiFillHeart size={20} />
               <Text fontWeight={"bold"} ml={1}>
-                7
+                {post.likes.length}
               </Text>
             </Flex>
             <Flex alignItems={"center"}>
               <FaComment size={20} />
               <Text fontWeight={"bold"} ml={1}>
-                3
+                {post.comments.length}
               </Text>
             </Flex>
           </Flex>
         </Flex>
         <Image
-          src={img}
+          src={post.imageURL}
           alt="profile post"
           w={"100%"}
           h={"100%"}
@@ -52,7 +56,14 @@ const ProfilePost = ({ img }) => {
         />
       </GridItem>
 
-      <PostModal img={img} isOpen={isOpen} onClose={onClose}></PostModal>
+      <PostModal
+        img={post.imageURL}
+        isOpen={isOpen}
+        onClose={onClose}
+        username={userProfile.username}
+        fullName={userProfile.fullName}
+        profilePic={userProfile.profilePicURL}
+      ></PostModal>
     </>
   );
 };

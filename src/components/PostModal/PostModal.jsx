@@ -16,7 +16,14 @@ import { MdDelete } from "react-icons/md";
 import Comment from "../Comment/Comment";
 import PostFooter from "../FeedPosts/PostFooter";
 
-const PostModal = ({ isOpen, onClose, img }) => {
+const PostModal = ({
+  isOpen,
+  onClose,
+  img,
+  username,
+  fullName,
+  profilePic,
+}) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -46,13 +53,9 @@ const PostModal = ({ isOpen, onClose, img }) => {
             <Flex flex={1} flexDir={"column"} px={{ base: 0, md: 10 }}>
               <Flex alignItems={"center"} justifyContent={"space-between"}>
                 <Flex alignItems={"center"} gap={4}>
-                  <Avatar
-                    src="/profilepic.png"
-                    size={"sm"}
-                    name={"nikcladis"}
-                  />
+                  <Avatar src={profilePic} size={"sm"} name={fullName} />
                   <Text fontWeight={"bold"} fontSize={12}>
-                    nikcladis
+                    {username}
                   </Text>
                 </Flex>
 
