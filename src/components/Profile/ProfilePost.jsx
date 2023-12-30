@@ -4,14 +4,43 @@ import { FaComment } from "react-icons/fa";
 import PostModal from "../PostModal/PostModal";
 import useUserProfileStore from "../../store/useUserProfileStore";
 import useAuthStore from "../../store/authStore";
+import useShowToast from "../../hooks/useShowToast";
+import { useState } from "react";
+import { deleteObject, ref } from "firebase/storage";
+import { firestore, storage } from "../../firebase/firebase";
+import { arrayRemove, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import usePostStore from "../../store/postStore";
 
 const ProfilePost = ({ post }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const userProfile = useUserProfileStore((state) => state.userProfile);
   const authUser = useAuthStore((state) => state.user);
+  const showToast = useShowToast();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const deletePost = usePostStore((state) => state.deletePost);
 
-  console.log("authUserUId: ", authUser);
-  console.log("userProfileUId: ", userProfile);
+  const handleDeletePost = async () => {
+    if (!window.confirm("Are you sure you want to delete this post?")) return;
+    if (isDeleting) return;
+
+    try {
+      const imageRef = ref(storage, `posts/${post.id}`);
+      await deleteObject(imageRef);
+      const userRef = doc(firestore, "users", authUser.uid);
+      await deleteDoc(doc(firestore, "posts", post.id));
+
+      await updateDoc(userRef, {
+        posts: arrayRemove(post.id),
+      });
+
+      deletePost(post.id);
+      showToast("Success", "Post deleted successfully", "success");
+    } catch (error) {
+      showToast("Error", error.message, "error");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <>
@@ -68,6 +97,8 @@ const ProfilePost = ({ post }) => {
         profilePic={userProfile.profilePicURL}
         userProfileUId={userProfile.uid}
         authUserUId={authUser?.uid}
+        handleDeletePost={handleDeletePost}
+        isDeleting={isDeleting}
       ></PostModal>
     </>
   );

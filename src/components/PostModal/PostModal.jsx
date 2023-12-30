@@ -14,7 +14,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { MdDelete } from "react-icons/md";
-import useUserProfileStore from "../../store/useUserProfileStore";
 import Comment from "../Comment/Comment";
 import PostFooter from "../FeedPosts/PostFooter";
 
@@ -27,6 +26,8 @@ const PostModal = ({
   profilePic,
   userProfileUId,
   authUserUId,
+  handleDeletePost,
+  isDeleting,
 }) => {
   return (
     <Modal
@@ -73,6 +74,8 @@ const PostModal = ({
                     _hover={{ base: "whiteAlpha.300", color: "red.600" }}
                     borderRadius={4}
                     p={1}
+                    onClick={handleDeletePost}
+                    isDisabled={isDeleting}
                   >
                     <MdDelete size={20} cursor={"pointer"}></MdDelete>
                   </Button>
