@@ -101,6 +101,8 @@ const ProfilePost = ({ post }) => {
         authUserUId={authUser?.uid}
         handleDeletePost={handleDeletePost}
         isDeleting={isDeleting}
+        comments={post.comments}
+        post={post}
       ></PostModal>
     </>
   );

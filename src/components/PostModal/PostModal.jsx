@@ -28,6 +28,8 @@ const PostModal = ({
   authUserUId,
   handleDeletePost,
   isDeleting,
+  comments,
+  post,
 }) => {
   return (
     <Modal
@@ -88,22 +90,13 @@ const PostModal = ({
                 maxH={"350px"}
                 overflowY={"auto"}
               >
-                <Comment
-                  createdAt={"1d ago"}
-                  username={"nikcladis"}
-                  profilePic="/profilepic.png"
-                  text={"Dummy images from unsplash"}
-                />
-                <Comment
-                  createdAt={"12h ago"}
-                  username={"abrahmov"}
-                  profilePic={"/profilepic.png"}
-                  text={"Dummy images from unsplash"}
-                />
+                {comments.map((comment) => {
+                  return <Comment key={comment.id} comment={comment} />;
+                })}
               </VStack>
               <Divider my={4} bg={"gray.800"} />
               <Box marginTop={"auto"}>
-                <PostFooter isProfilePage={true} />
+                <PostFooter isProfilePage={true} post={post} />
               </Box>
             </Flex>
           </Flex>

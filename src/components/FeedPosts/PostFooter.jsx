@@ -13,10 +13,22 @@ import {
   UnlikeLogo,
   CommentLogo,
 } from "../../assets/constants";
+import usePostComment from "../../hooks/usePostComment";
 
-const PostFooter = ({ username, isProfilePage }) => {
+const PostFooter = ({ username, isProfilePage, post }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(1000);
+  const { isCommenting, handlePostComment } = usePostComment();
+  const [comment, setComment] = useState("");
+
+  const handleSubmitComment = async () => {
+    setComment(comment.trim());
+
+    if (comment) {
+      await handlePostComment(post.id, comment);
+      setComment("");
+    }
+  };
 
   const handleLike = () => {
     !isLiked ? setLikes((prev) => prev + 1) : setLikes((prev) => prev - 1);
@@ -48,7 +60,13 @@ const PostFooter = ({ username, isProfilePage }) => {
       )}
 
       <InputGroup>
-        <Input variant="flushed" placeholder="Add a comment..." fontSize={14} />
+        <Input
+          variant="flushed"
+          placeholder="Add a comment..."
+          fontSize={14}
+          onChange={(e) => setComment(e.target.value)}
+          value={comment}
+        />
         <InputRightElement
           as={"button"}
           cursor={"pointer"}
@@ -59,6 +77,8 @@ const PostFooter = ({ username, isProfilePage }) => {
             color: "white",
           }}
           transition={"200ms ease-in-out"}
+          onClick={handleSubmitComment}
+          isLoading={isCommenting}
         >
           Post
         </InputRightElement>
