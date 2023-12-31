@@ -90,6 +90,9 @@ const PostModal = ({
                 maxH={"350px"}
                 overflowY={"auto"}
               >
+                {/* caption */}
+                {post.caption && <Caption post={post} />}
+                {/* comments */}
                 {comments.map((comment) => {
                   return <Comment key={comment.id} comment={comment} />;
                 })}
