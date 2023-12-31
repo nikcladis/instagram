@@ -1,10 +1,10 @@
-import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { firestore } from "../firebase/firebase";
 import useShowToast from "./useShowToast";
+import { doc, getDoc } from "firebase/firestore";
+import { firestore } from "../firebase/firebase";
 
 const useGetUserProfileById = (userId) => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [userProfile, setUserProfile] = useState(null);
 
     const showToast = useShowToast();
@@ -18,18 +18,16 @@ const useGetUserProfileById = (userId) => {
                 if (userRef.exists()) {
                     setUserProfile(userRef.data());
                 }
-
             } catch (error) {
                 showToast("Error", error.message, "error");
             } finally {
                 setIsLoading(false);
             }
-        }
-
+        };
         getUserProfile();
     }, [showToast, setUserProfile, userId]);
 
     return { isLoading, userProfile, setUserProfile };
-}
+};
 
 export default useGetUserProfileById;

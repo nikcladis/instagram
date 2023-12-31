@@ -1,7 +1,23 @@
-import { Flex, GridItem, Image, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Flex,
+  GridItem,
+  Image,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+  VStack,
+} from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
-import PostModal from "../PostModal/PostModal";
+import { MdDelete } from "react-icons/md";
 import useUserProfileStore from "../../store/useUserProfileStore";
 import useAuthStore from "../../store/authStore";
 import useShowToast from "../../hooks/useShowToast";
@@ -10,6 +26,9 @@ import { deleteObject, ref } from "firebase/storage";
 import { firestore, storage } from "../../firebase/firebase";
 import { arrayRemove, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import usePostStore from "../../store/postStore";
+import Caption from "../Comment/Caption";
+import Comment from "../Comment/Comment";
+import PostFooter from "../FeedPosts/PostFooter";
 
 const ProfilePost = ({ post }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -90,20 +109,93 @@ const ProfilePost = ({ post }) => {
         />
       </GridItem>
 
-      <PostModal
-        img={post.imageURL}
+      <Modal
         isOpen={isOpen}
         onClose={onClose}
-        username={userProfile.username}
-        fullName={userProfile.fullName}
-        profilePic={userProfile.profilePicURL}
-        userProfileUId={userProfile.uid}
-        authUserUId={authUser?.uid}
-        handleDeletePost={handleDeletePost}
-        isDeleting={isDeleting}
-        comments={post.comments}
-        post={post}
-      ></PostModal>
+        isCentered
+        size={{ base: "3xl", md: "5xl" }}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody bg={"black"} pb={5}>
+            <Flex
+              gap={4}
+              w={{ base: "90%", sm: "70%", md: "full" }}
+              mx={"auto"}
+              flexDirection={{ base: "column", md: "row" }}
+              justifyContent={{ md: "center" }}
+              alignItems={{ md: "center" }}
+            >
+              <Box
+                borderRadius={4}
+                overflow={"hidden"}
+                border={"1px solid"}
+                borderColor={"whiteAlpha.300"}
+                height={"fit-content"}
+                flex={1.5}
+              >
+                <Image
+                  src={post.imageURL}
+                  alt="profile post"
+                  backgroundSize={"cover"}
+                />
+              </Box>
+              <Flex flex={1} flexDir={"column"} px={{ base: 0, md: 10 }}>
+                <Flex alignItems={"center"} justifyContent={"space-between"}>
+                  <Flex alignItems={"center"} gap={4}>
+                    <Avatar
+                      src={userProfile.profilePicURL}
+                      size={"sm"}
+                      name={userProfile.fullName}
+                    />
+                    <Text fontWeight={"bold"} fontSize={12}>
+                      {userProfile.username}
+                    </Text>
+                  </Flex>
+
+                  {authUser?.uid === userProfile.uid && (
+                    <Button
+                      size={"sm"}
+                      bg={"transparent"}
+                      _hover={{ base: "whiteAlpha.300", color: "red.600" }}
+                      borderRadius={4}
+                      p={1}
+                      onClick={handleDeletePost}
+                      isDisabled={isDeleting}
+                    >
+                      <MdDelete size={20} cursor={"pointer"}></MdDelete>
+                    </Button>
+                  )}
+                </Flex>
+                <Divider my={4} bg={"gray.500"} />
+                <VStack
+                  w={"full"}
+                  alignItems={"flex-start"}
+                  maxH={"350px"}
+                  overflowY={"auto"}
+                >
+                  {/* caption */}
+                  {post.caption && <Caption post={post} />}
+                  {/* comments */}
+                  {post.comments.map((comment) => {
+                    return (
+                      <Comment
+                        key={JSON.stringify(comment)}
+                        comment={comment}
+                      />
+                    );
+                  })}
+                </VStack>
+                <Divider my={4} bg={"gray.800"} />
+                <Box marginTop={"auto"}>
+                  <PostFooter isProfilePage={true} post={post} />
+                </Box>
+              </Flex>
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

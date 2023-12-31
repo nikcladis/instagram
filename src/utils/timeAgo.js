@@ -2,6 +2,8 @@ export const timeAgo = (timestamp) => {
     const now = Date.now();
     const secondsAgo = Math.floor((now - timestamp) / 1000);
 
+    // console.log(timestamp);
+
     if (secondsAgo < 60) {
         return `${secondsAgo}s ago`;
     } else if (secondsAgo < 3600) {

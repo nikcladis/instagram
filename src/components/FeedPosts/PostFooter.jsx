@@ -7,6 +7,7 @@ import {
   HStack,
   InputGroup,
   InputRightElement,
+  Button,
 } from "@chakra-ui/react";
 import {
   NotificationsLogo,
@@ -15,14 +16,14 @@ import {
 } from "../../assets/constants";
 import usePostComment from "../../hooks/usePostComment";
 import useAuthStore from "../../store/authStore";
+import useLikePost from "../../hooks/useLikePost";
 
 const PostFooter = ({ username, isProfilePage, post }) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [likes, setLikes] = useState(1000);
   const { isCommenting, handlePostComment } = usePostComment();
   const [comment, setComment] = useState("");
   const authUser = useAuthStore();
   const commentRef = useRef(null);
+  const { isLiked, likes, handleLikePost } = useLikePost(post);
 
   const handleSubmitComment = async () => {
     setComment(comment.trim());
@@ -33,15 +34,10 @@ const PostFooter = ({ username, isProfilePage, post }) => {
     }
   };
 
-  const handleLike = () => {
-    !isLiked ? setLikes((prev) => prev + 1) : setLikes((prev) => prev - 1);
-    setIsLiked((prev) => !prev);
-  };
-
   return (
     <Stack as={"footer"} gap={1} my={4} fontSize={"sm"}>
       <HStack gap={4} my={1}>
-        <Box cursor={"pointer"} onClick={handleLike}>
+        <Box cursor={"pointer"} onClick={handleLikePost}>
           {!isLiked ? <NotificationsLogo /> : <UnlikeLogo />}
         </Box>
         <Box cursor={"pointer"} onClick={() => commentRef.current.focus()}>
@@ -72,20 +68,19 @@ const PostFooter = ({ username, isProfilePage, post }) => {
             value={comment}
             ref={commentRef}
           />
-          <InputRightElement
-            as={"button"}
-            cursor={"pointer"}
-            fontSize={"sm"}
-            fontWeight={"bold"}
-            color={"blue.500"}
-            _hover={{
-              color: "white",
-            }}
-            transition={"200ms ease-in-out"}
-            onClick={handleSubmitComment}
-            isLoading={isCommenting}
-          >
-            Post
+          <InputRightElement>
+            <Button
+              fontSize={14}
+              color={"blue.500"}
+              fontWeight={600}
+              cursor={"pointer"}
+              _hover={{ color: "white" }}
+              bg={"transparent"}
+              onClick={handleSubmitComment}
+              isLoading={isCommenting}
+            >
+              Post
+            </Button>
           </InputRightElement>
         </InputGroup>
       )}

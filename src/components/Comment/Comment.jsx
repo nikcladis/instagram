@@ -23,7 +23,7 @@ const Comment = ({ comment }) => {
           <Text fontSize={14}>{comment.comment}</Text>
         </Flex>
         <Text fontSize={12} color={"gray"}>
-          {timeAgo(comment.createdAt)}
+          {timeAgo(comment.createAt)}
         </Text>
       </Flex>
     </Flex>
