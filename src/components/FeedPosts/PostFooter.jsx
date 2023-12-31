@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Box,
   Text,
@@ -22,6 +22,7 @@ const PostFooter = ({ username, isProfilePage, post }) => {
   const { isCommenting, handlePostComment } = usePostComment();
   const [comment, setComment] = useState("");
   const authUser = useAuthStore();
+  const commentRef = useRef(null);
 
   const handleSubmitComment = async () => {
     setComment(comment.trim());
@@ -43,7 +44,7 @@ const PostFooter = ({ username, isProfilePage, post }) => {
         <Box cursor={"pointer"} onClick={handleLike}>
           {!isLiked ? <NotificationsLogo /> : <UnlikeLogo />}
         </Box>
-        <Box cursor={"pointer"}>
+        <Box cursor={"pointer"} onClick={() => commentRef.current.focus()}>
           <CommentLogo />
         </Box>
       </HStack>
@@ -69,6 +70,7 @@ const PostFooter = ({ username, isProfilePage, post }) => {
             fontSize={14}
             onChange={(e) => setComment(e.target.value)}
             value={comment}
+            ref={commentRef}
           />
           <InputRightElement
             as={"button"}
