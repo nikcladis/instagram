@@ -14,12 +14,14 @@ import {
   CommentLogo,
 } from "../../assets/constants";
 import usePostComment from "../../hooks/usePostComment";
+import useAuthStore from "../../store/authStore";
 
 const PostFooter = ({ username, isProfilePage, post }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(1000);
   const { isCommenting, handlePostComment } = usePostComment();
   const [comment, setComment] = useState("");
+  const authUser = useAuthStore();
 
   const handleSubmitComment = async () => {
     setComment(comment.trim());
@@ -59,30 +61,32 @@ const PostFooter = ({ username, isProfilePage, post }) => {
         </>
       )}
 
-      <InputGroup>
-        <Input
-          variant="flushed"
-          placeholder="Add a comment..."
-          fontSize={14}
-          onChange={(e) => setComment(e.target.value)}
-          value={comment}
-        />
-        <InputRightElement
-          as={"button"}
-          cursor={"pointer"}
-          fontSize={"sm"}
-          fontWeight={"bold"}
-          color={"blue.500"}
-          _hover={{
-            color: "white",
-          }}
-          transition={"200ms ease-in-out"}
-          onClick={handleSubmitComment}
-          isLoading={isCommenting}
-        >
-          Post
-        </InputRightElement>
-      </InputGroup>
+      {authUser && (
+        <InputGroup>
+          <Input
+            variant="flushed"
+            placeholder="Add a comment..."
+            fontSize={14}
+            onChange={(e) => setComment(e.target.value)}
+            value={comment}
+          />
+          <InputRightElement
+            as={"button"}
+            cursor={"pointer"}
+            fontSize={"sm"}
+            fontWeight={"bold"}
+            color={"blue.500"}
+            _hover={{
+              color: "white",
+            }}
+            transition={"200ms ease-in-out"}
+            onClick={handleSubmitComment}
+            isLoading={isCommenting}
+          >
+            Post
+          </InputRightElement>
+        </InputGroup>
+      )}
     </Stack>
   );
 };
