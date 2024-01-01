@@ -8,6 +8,7 @@ import {
   InputGroup,
   InputRightElement,
   Button,
+  useDisclosure,
 } from "@chakra-ui/react";
 import {
   NotificationsLogo,
@@ -18,6 +19,7 @@ import usePostComment from "../../hooks/usePostComment";
 import useAuthStore from "../../store/authStore";
 import useLikePost from "../../hooks/useLikePost";
 import { timeAgo } from "../../utils/timeAgo";
+import CommentsModal from "../Modals/CommentModal";
 
 const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
   const { isCommenting, handlePostComment } = usePostComment();
@@ -25,6 +27,7 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
   const authUser = useAuthStore();
   const commentRef = useRef(null);
   const { isLiked, likes, handleLikePost } = useLikePost(post);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleSubmitComment = async () => {
     setComment(comment.trim());
@@ -59,10 +62,19 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
             <Text as="span">{post.caption}</Text>
           </HStack>
           {post.comments.length > 0 && (
-            <Text fontSize="sm" color={"gray"} cursor={"pointer"}>
+            <Text
+              fontSize="sm"
+              color={"gray"}
+              cursor={"pointer"}
+              onClick={onOpen}
+            >
               View all {post.comments.length} comments
             </Text>
           )}
+          {/* COMMENTS MODAL ONLY IN THE HOME PAGE */}
+          {isOpen ? (
+            <CommentsModal isOpen={isOpen} onClose={onClose} post={post} />
+          ) : null}
         </>
       )}
 
