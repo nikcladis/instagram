@@ -17,8 +17,9 @@ import {
 import usePostComment from "../../hooks/usePostComment";
 import useAuthStore from "../../store/authStore";
 import useLikePost from "../../hooks/useLikePost";
+import { timeAgo } from "../../utils/timeAgo";
 
-const PostFooter = ({ username, isProfilePage, post }) => {
+const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
   const { isCommenting, handlePostComment } = usePostComment();
   const [comment, setComment] = useState("");
   const authUser = useAuthStore();
@@ -45,16 +46,23 @@ const PostFooter = ({ username, isProfilePage, post }) => {
         </Box>
       </HStack>
       <Text>{likes} likes</Text>
+      {isProfilePage && (
+        <Text fontSize="12" color={"gray"}>
+          Posted {timeAgo(post.createdAt)}
+        </Text>
+      )}
 
       {!isProfilePage && (
         <>
           <HStack gap={1}>
-            <Text fontWeight={"bold"}>{username ?? "nikcladis"}</Text>
-            <Text as="span">Feeling good</Text>
+            <Text fontWeight={"bold"}>{creatorProfile?.username} </Text>
+            <Text as="span">{post.caption}</Text>
           </HStack>
-          <Text cursor={"pointer"} color={"gray.500"}>
-            View all 1,000 comments
-          </Text>
+          {post.comments.length > 0 && (
+            <Text fontSize="sm" color={"gray"} cursor={"pointer"}>
+              View all {post.comments.length} comments
+            </Text>
+          )}
         </>
       )}
 
