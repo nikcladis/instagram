@@ -1,8 +1,25 @@
-# React + Vite
+# 📱 SocialApp - Social App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SocialApp is a realtime social app built with Vite, React, Firebase, and other technologies. This chat app is purposefully made for the web, but it also works on mobile devices.
 
-Currently, two official plugins are available:
+# 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🗝 Signup/Login with Google (authentication)
+- 👤 View your own profile, name, bio, posts, etc.
+- 👀 View others' profiles, posts, comments, etc.
+- 🏠 View recent posts on the home page.
+- ✍️ Create posts and captions.
+- ❤️ Like/unlike posts.
+- 🗨 Create comments on posts.
+- 👥 Follow/unfollow users.
+- 🖼️ Edit profile picture, name, bio, etc.
+- 🗑️ Delete posts.
+- 💬 View comments on posts.
+- 🧐 View suggested users.
+
+# 🛠️ Main Technologies
+
+- `React`
+- `Firebase`
+- `Chakra UI`
+- `Vite`
